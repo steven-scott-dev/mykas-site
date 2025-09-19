@@ -64,4 +64,4 @@ function FloatingGratitudes({ gratitudes }) {
   );
 }
 
-export default FloatingGratitudes;y
+export default FloatingGratitudes;

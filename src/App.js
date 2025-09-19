@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import FloatingGratitudes from './FloatingGratitudes'; // Make sure this file exists with the floating words component
+import FloatingGratitudes from './FloatingGratitudes';
+import BudgetAndSavings from './BudgetAndSavings';
+import CleoStyleCoach from './CleoStyleCoach';
+import PrayerWall from "./PrayerWall";
 
 // Helper for localStorage key
 function getGratitudeKey() {
@@ -87,6 +90,8 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [gratitude, setGratitude] = useState("");
   const [gratitudes, setGratitudes] = useState([]);
+  const [page, setPage] = useState('home'); // home | budget | prayers
+  const [coachOpen, setCoachOpen] = useState(false);
 
   useEffect(() => {
     const key = getGratitudeKey();
@@ -110,42 +115,95 @@ function App() {
   return (
     <>
       <FloatingGratitudes gratitudes={gratitudes} />
-      <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden" style={{ fontFamily: 'serif' }}>
-        {/* Magical gradient background */}
+      <div className="relative min-h-screen flex flex-col overflow-hidden" style={{ fontFamily: 'serif' }}>
+        {/* Background */}
         <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(135deg, #6d28d9 0%, #ec4899 60%, #fbbf24 100%)' }}></div>
         <SparkleBG />
         {showModal && <GratitudeModal onSubmit={handleGratitudeSubmit} />}
-        <header className="relative z-10 text-center mt-16">
-          <h1 className="text-5xl font-extrabold text-white mb-3 drop-shadow-xl tracking-wider font-serif" style={{ letterSpacing: '0.06em' }}>
+
+        {/* NAV BAR */}
+        <nav className="relative z-20 bg-white/80 backdrop-blur-md border-b-2 border-pink-300 px-6 py-4 flex justify-center gap-6 shadow-md">
+          <button
+            onClick={() => setPage('home')}
+            className={`px-4 py-2 rounded-lg font-bold transition-colors ${page === 'home' ? 'bg-pink-300 text-purple-900' : 'text-purple-700 hover:text-pink-700'}`}
+          >
+            🏠 Home
+          </button>
+          <button
+            onClick={() => setPage('budget')}
+            className={`px-4 py-2 rounded-lg font-bold transition-colors ${page === 'budget' ? 'bg-pink-300 text-purple-900' : 'text-purple-700 hover:text-pink-700'}`}
+          >
+            💰 Budget
+          </button>
+          <button
+            onClick={() => setPage('prayers')}
+            className={`px-4 py-2 rounded-lg font-bold transition-colors ${page === 'prayers' ? 'bg-pink-300 text-purple-900' : 'text-purple-700 hover:text-pink-700'}`}
+          >
+            🙏 Prayer Wall
+          </button>
+          <button
+            onClick={() => setCoachOpen(true)}
+            className="px-4 py-2 rounded-lg font-bold text-purple-700 hover:text-pink-700 transition-colors"
+          >
+            💬 Money Buddy
+          </button>
+        </nav>
+
+        {/* HEADER */}
+        <header className="relative z-10 text-center mt-8">
+          <h1 className="text-4xl font-extrabold text-white mb-3 drop-shadow-xl tracking-wider font-serif">
             Welcome, Myka! <span className="ml-2">🪄</span>
           </h1>
-          <p className="text-xl text-yellow-100 mb-8 font-cursive" style={{ fontFamily: 'cursive' }}>Your magical, personalized life guide awaits.</p>
           {gratitude && (
-            <div className="bg-white bg-opacity-80 rounded-xl shadow-xl p-5 inline-block border-2 border-yellow-200 mt-2">
-              <span className="text-purple-700 font-bold">Today's gratitude:</span> <span className="italic text-pink-700">{gratitude}</span>
+            <div className="bg-white/80 rounded-xl shadow-xl p-4 inline-block border-2 border-yellow-200 mt-2">
+              <span className="text-purple-700 font-bold">Today's gratitude:</span>
+              <span className="italic text-pink-700"> {gratitude}</span>
             </div>
           )}
         </header>
-        <main className="relative z-10 mt-12 flex flex-col items-center">
-          <div className="bg-white bg-opacity-90 rounded-3xl shadow-2xl p-10 max-w-2xl w-full border-4 border-pink-300">
-            <h2 className="text-2xl font-extrabold text-purple-700 mb-6 flex items-center font-serif">
-              <span className="mr-2">🦄</span> Explore Your Magical Dashboard
-            </h2>
-            <ul className="text-pink-700 space-y-3 text-lg font-semibold">
-              <li>✨ Personalized AI Chat Assistant</li>
-              <li>💰 Budget Maker & Savings Goals</li>
-              <li>🙏 Prayer Wall</li>
-              <li>👗 What to Wear Advisor</li>
-              <li>🎯 Goal Tracker</li>
-              <li>🎓 College & Faith on Campus</li>
-              <li>🧠 Mental Health & Self-Care</li>
-              <li>💌 Message from Mom/Dad</li>
-            </ul>
-          </div>
+
+        {/* MAIN CONTENT */}
+        <main className="relative z-10 mt-6 flex flex-col items-center w-full px-4 flex-grow">
+          {page === 'home' && (
+            <div className="w-full max-w-5xl">
+              {/* Hero Section */}
+              <section className="bg-gradient-to-r from-purple-500 via-pink-400 to-yellow-300 text-white rounded-3xl shadow-2xl p-10 mb-10 text-center">
+                <h2 className="text-4xl font-extrabold mb-4 drop-shadow-lg">
+                  🌟 You Are Loved, Guided & Growing 🌟
+                </h2>
+                <p className="text-lg max-w-2xl mx-auto font-medium">
+                  Every prayer, every dollar saved, and every choice you make is shaping a bright future ✨. 
+                  Keep going — you're doing amazing things, even on the small days.
+                </p>
+              </section>
+
+              {/* Dashboard Preview */}
+              <div className="bg-white bg-opacity-90 rounded-3xl shadow-2xl p-10 border-4 border-pink-300 text-center">
+                <h3 className="text-2xl font-extrabold text-purple-700 mb-6 flex items-center font-serif justify-center">
+                  <span className="mr-2">🦄</span> Explore Your Magical Dashboard
+                </h3>
+                <ul className="text-pink-700 space-y-3 text-lg font-semibold">
+                  <li>✨ Personalized AI Chat Assistant</li>
+                  <li>💰 Budget Maker & Savings Goals</li>
+                  <li>🙏 Prayer Wall</li>
+                  <li>👗 What to Wear Advisor</li>
+                  <li>🎯 Goal Tracker</li>
+                  <li>🎓 College & Faith on Campus</li>
+                  <li>🧠 Mental Health & Self-Care</li>
+                  <li>💌 Message from Mom/Dad</li>
+                </ul>
+              </div>
+            </div>
+          )}
+          {page === 'budget' && <BudgetAndSavings />}
+          {page === 'prayers' && <PrayerWall />}
         </main>
-        <footer className="relative z-10 mt-16 text-sm text-yellow-100 font-cursive mb-4" style={{ fontFamily: 'cursive' }}>
+
+        {/* FOOTER */}
+        <footer className="relative z-10 mt-16 text-sm text-yellow-100 font-cursive mb-4 text-center">
           Made with <span className="text-yellow-300">★</span> magic for Myka | Harry Potter & Lego sparkle included!
         </footer>
+
         {/* Animations */}
         <style>{`
           @keyframes shimmer {
@@ -166,6 +224,9 @@ function App() {
           }
         `}</style>
       </div>
+
+      {/* COACH MODAL */}
+      <CleoStyleCoach open={coachOpen} onClose={() => setCoachOpen(false)} />
     </>
   );
 }
