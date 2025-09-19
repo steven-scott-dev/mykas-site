@@ -3,6 +3,7 @@ import FloatingGratitudes from './FloatingGratitudes';
 import BudgetAndSavings from './BudgetAndSavings';
 import CleoStyleCoach from './CleoStyleCoach';
 import PrayerWall from "./PrayerWall";
+import WhatToWear from "./WhatToWear";
 
 // Helper for localStorage key
 function getGratitudeKey() {
@@ -90,7 +91,7 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [gratitude, setGratitude] = useState("");
   const [gratitudes, setGratitudes] = useState([]);
-  const [page, setPage] = useState('home'); // home | budget | prayers
+  const [page, setPage] = useState('home'); // home | budget | prayers | outfits
   const [coachOpen, setCoachOpen] = useState(false);
 
   useEffect(() => {
@@ -140,6 +141,12 @@ function App() {
             className={`px-4 py-2 rounded-lg font-bold transition-colors ${page === 'prayers' ? 'bg-pink-300 text-purple-900' : 'text-purple-700 hover:text-pink-700'}`}
           >
             🙏 Prayer Wall
+          </button>
+          <button
+            onClick={() => setPage('outfits')}
+            className={`px-4 py-2 rounded-lg font-bold transition-colors ${page === 'outfits' ? 'bg-pink-300 text-purple-900' : 'text-purple-700 hover:text-pink-700'}`}
+          >
+            👗 What to Wear
           </button>
           <button
             onClick={() => setCoachOpen(true)}
@@ -197,6 +204,7 @@ function App() {
           )}
           {page === 'budget' && <BudgetAndSavings />}
           {page === 'prayers' && <PrayerWall />}
+          {page === 'outfits' && <WhatToWear />}
         </main>
 
         {/* FOOTER */}
