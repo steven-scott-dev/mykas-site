@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+//import styled, { keyframes } from 'styled-components';
 
 // Helper to generate random positions and animation delays
 function randomBetween(min, max) {
